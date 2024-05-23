@@ -28,7 +28,7 @@ class Queue:
 
     def dequeue(self):
         if len(self.buffer) == 0:
-            print("Queue is empty")
+            print("DSQueue is empty")
             return
 
         return self.buffer.pop()
