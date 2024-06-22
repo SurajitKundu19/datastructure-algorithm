@@ -32,10 +32,10 @@ class BinaryTreeNode:
         elements = []
         elements.append(self.data)
         if self.left:
-            elements += self.left.in_order_traversal()
+            elements += self.left.pre_order_traversal()
 
         if self.right:
-            elements += self.right.in_order_traversal()
+            elements += self.right.pre_order_traversal()
         return elements
 
     def find_min(self):
@@ -55,13 +55,34 @@ class BinaryTreeNode:
         right_sum = self.right.calculate_sum() if self.right else 0
         return left_sum + right_sum + self.data
 
+    def delete_node(self, val):
+        print(self.data, val)
+        if val < self.data:
+            if self.left:
+                self.left = self.left.delete_node(val)
+        elif val > self.data:
+            if self.right:
+                self.right = self.right.delete_node(val)
+        else:
+            if self.left is None and self.right is None:
+                return None
+            elif self.left is None:
+                return self.right
+            elif self.right is None:
+                return self.left
+            max_val = self.left.find_max()
+            self.data = max_val
+            self.left = self.left.delete_node(max_val)
+
+        return self
+
     def post_order_traversal(self):
         elements = []
         if self.left:
-            elements += self.left.in_order_traversal()
+            elements += self.left.post_order_traversal()
 
         if self.right:
-            elements += self.right.in_order_traversal()
+            elements += self.right.post_order_traversal()
         elements.append(self.data)
         return elements
 
@@ -89,7 +110,7 @@ def build_tree(elements):
 
 
 if __name__ == "__main__":
-    numbers = [17, 4, 1, 20, 9, 23, 18, 34, 18, 4]
+    numbers = [17, 4, 1, 20, 9, 23, 18, 16, 34, 18, 4]
     root = build_tree(numbers)
     print(root)
     print(root.in_order_traversal())
@@ -99,3 +120,6 @@ if __name__ == "__main__":
     print(root.find_min())
     print(root.find_max())
     print(root.calculate_sum())
+    print(root.in_order_traversal())
+    print(root.delete_node(9))
+    print(root.in_order_traversal())
